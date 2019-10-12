@@ -10,6 +10,9 @@
 
 global_variable bool running = true;
 
+global_variable const u32 TileMapHeight = 22;
+global_variable const u32 TileMapWidth = 40;
+
 struct Render_State {
 	int width;
 	int height;
@@ -18,6 +21,7 @@ struct Render_State {
 };
 
 global_variable Render_State render_state;
+
 
 #include "platform_common.cpp"
 #include "renderer.cpp"
@@ -101,8 +105,8 @@ WinMain(HINSTANCE hInstance,
 		WS_OVERLAPPEDWINDOW | WS_VISIBLE,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
-		1280,
-		720,
+		1400,
+		800,
 		0,
 		0,
 		hInstance,
@@ -111,10 +115,10 @@ WinMain(HINSTANCE hInstance,
 
 	// Handle to Device Context
 	HDC hdc = GetDC(window);
-
+#if 0
 	// Hide the cursor over the window
 	ShowCursor(false);
-
+#endif
 	Input input = {};
 
 	// 60 FPS time

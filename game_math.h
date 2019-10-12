@@ -1,15 +1,12 @@
 #ifndef GAME_MATH_H
 #define GAME_MATH_H
 
+#include <math.h>
 
 union v2 {
 	struct
 	{
 		float X, Y;
-	};
-	struct
-	{
-		float U, V;
 	};
 	float E[2];
 };

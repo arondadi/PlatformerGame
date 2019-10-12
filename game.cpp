@@ -5,24 +5,22 @@
 #define released(b) (!input->buttons[b].is_down && input->buttons[b].changed)
 
 /*
-//TODO: Vector calculations on collision to conserve momentum and move player in right direction depending on angle of collision (up or down walls and edges)
-//TODO: Dash mechanic -> press a button to dash quickly a fixed distance and cool down timer on that mechanic. Opptional: Genji super dash off edges
-//TODO: Gamepad support in platform layer
-//TODO: Impliment Tilemap map
-//TOTO impliment GetTileValue for collision(position as param and check what tile is there)
+TOTO impliment GetTileValue for collision(position as param and check what tile is there)
+TODO: Dash mechanic -> press a button to dash quickly a fixed distance and cool down timer on that mechanic. Opptional: Genji super dash off edges
+TODO: Gamepad support in platform layer
+TODO: Add absolute oordinates to position the playing field in the center of window
 TODO: check and implement tips: https://www.youtube.com/watch?v=vFsJIrm2btU
 */
 
-struct game_entity
+/* DONE
+Impliment Tilemap map
+*/
+
+
+struct graphics_entity
 {
-	float x;
-	float y;
 	float half_size_x;
 	float half_size_y;
-	float dx;
-	float dy;
-	float ddx;
-	float ddy;
 };
 
 
@@ -36,24 +34,23 @@ struct physics_entity
 
 bool initilized = false;
 
-float gravity = -120.f;
+//float gravity = -120.f;
+float gravity = 0;
 
 bool grounded = true;
 bool attached = false;
 
 float arena_half_size_x = 85, arena_half_size_y = 45;
 
-game_entity Player;
+graphics_entity PlayerGraphics;
 physics_entity PlayerPhysics;
 
 // Test platform
 float test_x = 0;
 float test_y = -20;
 float test_half_size_x = 30;
-float test_half_size_y = 4;
+float test_half_size_y = 12;
 
-
-//TODO: implement player struct and "last-frame-ghost" entity(last few frames..)
 // TODO Insert into simulate player:
 internal void
 simulate_player(float *p, float *dp, float *half_size_x, float *half_size_y, float ddp, float dt)
@@ -99,17 +96,11 @@ simulate_game(Input* input, float dt)
 	{
 		initilized = true;
 
-		Player.x = 0;
-		Player.y = 0;
-		Player.dx = 0;
-		Player.dy = 0;
-		Player.ddx = 0;
-		Player.ddy = 0;
-		Player.half_size_x = 2;
-		Player.half_size_y = 2;
+		PlayerGraphics.half_size_x = 16;
+		PlayerGraphics.half_size_y = 16;
 
-		PlayerPhysics.P.X = 0;
-		PlayerPhysics.P.Y = 0;
+		PlayerPhysics.P.X = 16;
+		PlayerPhysics.P.Y = 9;
 		PlayerPhysics.dP.X = 0;
 		PlayerPhysics.dP.Y = 0;
 		PlayerPhysics.ddP.X = 0;
@@ -117,43 +108,45 @@ simulate_game(Input* input, float dt)
 	}
 
 
-	Player.ddx = 0.f;
-	Player.ddy = 0.f;
+#if 1
+	PlayerPhysics.ddP.X = 0.f;
+	PlayerPhysics.ddP.Y = 0.f;
 
-	// TODO: make new position and check if it is legal. If not make a legal move. 
-	physics_entity NewPlayerPhysics;
+	// physics_entity to move the player with new input values
+	physics_entity NewPlayerPhysics = PlayerPhysics;
 
 	// Control input
-	if (is_down(BUTTON_LEFT)) Player.ddx -= 300;
-	if (is_down(BUTTON_RIGHT)) Player.ddx += 300;
+	if (is_down(BUTTON_LEFT)) NewPlayerPhysics.ddP.X -= 300;
+	if (is_down(BUTTON_RIGHT)) NewPlayerPhysics.ddP.X += 300;
 
+	//TODO: Remove double jump after attached 
 	if (grounded || attached)
 	{
 		if (pressed(BUTTON_SPACE))
 		{
-			Player.dy += 85;
+			NewPlayerPhysics.dP.Y += 85;
 			grounded = false;
 			attached = false;
 		}
 	}
 
 	// Friction
-	Player.ddx -= Player.dx * 5.f;
+	NewPlayerPhysics.ddP.X -= NewPlayerPhysics.dP.X * 5.f;
 	
-	Player.y = Player.y + Player.dy * dt;
-	Player.dy = Player.dy + gravity * dt;
+	NewPlayerPhysics.dP.Y = NewPlayerPhysics.dP.Y + gravity * dt;
+	NewPlayerPhysics.P.Y = NewPlayerPhysics.P.Y + NewPlayerPhysics.dP.Y * dt;
 
-	Player.x = Player.x + Player.dx * dt + Player.ddx * dt * dt;
-	Player.dx = Player.dx + Player.ddx * dt;
+	NewPlayerPhysics.dP.X = NewPlayerPhysics.dP.X + NewPlayerPhysics.ddP.X * dt;
+	NewPlayerPhysics.P.X = NewPlayerPhysics.P.X + NewPlayerPhysics.dP.X * dt + NewPlayerPhysics.ddP.X * dt * dt;
 
 
 	// Collision with platform
-	if (aabb_collision(Player.x, Player.y, Player.half_size_x, Player.half_size_y, test_x, test_y, test_half_size_x, test_half_size_y))
+	if (aabb_collision(NewPlayerPhysics.P.X, NewPlayerPhysics.P.Y, PlayerGraphics.half_size_x, PlayerGraphics.half_size_y, test_x, test_y, test_half_size_x, test_half_size_y))
 	{
 
-		//TODO: Conserve momentum
 		/*
-		
+		Conserve momentum
+
 		Check for collision aabb by checking (x,y) and size of player and object
 		Check players next postition v2_0
 
@@ -163,59 +156,135 @@ simulate_game(Input* input, float dt)
 
 		*/
 
-		if (Player.dy < 0)
+		if ((PlayerPhysics.P.Y + PlayerGraphics.half_size_y > test_y + test_half_size_y) && (NewPlayerPhysics.dP.Y < 0))
 		{
-			Player.y = -20 + 4 + Player.half_size_y;
-			Player.dy = 0;
+			NewPlayerPhysics.P.Y = (test_y + test_half_size_y + PlayerGraphics.half_size_y);
+			NewPlayerPhysics.dP.Y = 0;
 			grounded = true;
 		}
-		else if (Player.dy >= 0)
+		else if (PlayerPhysics.P.Y + PlayerGraphics.half_size_y < test_y - test_half_size_y)
 		{
-			//TODO: Change for edge cases (climb up on ledges, don't bounce down on edge. Fix with ghost player
-			Player.y = -20 - 4 - Player.half_size_x;
-			Player.dy *= -0.75;
+			NewPlayerPhysics.P.Y = (test_y - test_half_size_y - PlayerGraphics.half_size_y);
+			NewPlayerPhysics.dP.Y = 0;
+		}
+		else if (PlayerPhysics.P.X - PlayerGraphics.half_size_x < test_x - test_half_size_x)
+		{
+			NewPlayerPhysics.P.X = (test_x - test_half_size_x - PlayerGraphics.half_size_x);
+			NewPlayerPhysics.dP.X = 0;
+			
+
+			attached = true;
+		}
+		else if (PlayerPhysics.P.X + PlayerGraphics.half_size_x > test_x + test_half_size_x)
+		{
+			NewPlayerPhysics.P.X = (test_x + test_half_size_x + PlayerGraphics.half_size_x);
+			NewPlayerPhysics.dP.X = 0;
+			
+
+			attached = true;
 		}
 	}
 
-
+	PlayerPhysics = NewPlayerPhysics;
 
 	// Collision with area
-	if (Player.x + Player.half_size_x > arena_half_size_x)
+	if (PlayerPhysics.P.X + PlayerGraphics.half_size_x > arena_half_size_x)
 	{
-		Player.x = arena_half_size_x - Player.half_size_x;
-		Player.dx *= -0.2;
-		Player.dy *= 0.5;
+		PlayerPhysics.P.X = arena_half_size_x - PlayerGraphics.half_size_x;
+		PlayerPhysics.dP.X *= -0.2;
+		PlayerPhysics.dP.Y *= 0.5;
 		attached = true;
 	}
-	if (Player.x - Player.half_size_x < -arena_half_size_x)
+	if (PlayerPhysics.P.X - PlayerGraphics.half_size_x < -arena_half_size_x)
 	{
-		Player.x = -arena_half_size_x + Player.half_size_x;
-		Player.dx *= -0.2;
-		Player.dy *= 0.5;
+		PlayerPhysics.P.X = -arena_half_size_x + PlayerGraphics.half_size_x;
+		PlayerPhysics.dP.X *= -0.2;
+		PlayerPhysics.dP.Y *= 0.5;
 		attached = true;
 	}
 
-	if (Player.y - Player.half_size_y < -arena_half_size_y)
+	if (PlayerPhysics.P.Y - PlayerGraphics.half_size_y < -arena_half_size_y)
 	{
-		Player.y = -arena_half_size_y + Player.half_size_y;
-		Player.dy = 0;
+		PlayerPhysics.P.Y = -arena_half_size_y + PlayerGraphics.half_size_y;
+		PlayerPhysics.dP.Y = 0;
 		grounded = true;
 	}	
 	
-	if (Player.y + Player.half_size_y > arena_half_size_y)
+	if (PlayerPhysics.P.Y + PlayerGraphics.half_size_y > arena_half_size_y)
 	{
-		Player.y = arena_half_size_y - Player.half_size_y;
-		Player.dy *= -0.75;
+		PlayerPhysics.P.Y = arena_half_size_y - PlayerGraphics.half_size_y;
+		PlayerPhysics.dP.Y *= -0.75;
 	}
 
+#endif
+
+	u32 TileWidth = 32;
+	u32 TileHeight = 32;
 
 	// Clear screen
 	clear_screen(0xff5500);
 
+	// The origin is in lower left corner, we draw the map and then flip it before rendering
+	u32 TileMapFlipped[TileMapHeight][TileMapWidth] =
+	{
+		{1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1},
+		{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1,  1, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+		{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+		{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+		{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+		{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+		{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+		{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+		{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+		{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+		{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+		{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+		{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+		{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+		{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+		{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+		{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+		{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+		{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+		{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+		{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+		{1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1}
+	};
+
+
+	u32 TileMap[TileMapHeight][TileMapWidth] = {};
+	for (u32 i = 0; i < TileMapHeight; ++i)
+	{
+		for (u32 j = 0; j < TileMapWidth; ++j)
+		{
+			TileMap[i][j] = TileMapFlipped[TileMapHeight - i - 1][j];
+		}
+	}
+
+
 	// Draw play area
-	draw_rect(0, 0, arena_half_size_x, arena_half_size_y, 0xffaa33);
-	draw_rect(test_x, test_y, test_half_size_x, test_half_size_y, 0xff5500);
+	for (u32 row = 0; row < TileMapHeight; ++row)
+	{
+		for (u32 col = 0; col < TileMapWidth; ++col)
+		{
+			u32 TileID = TileMap[row][col];
+			u32 color = 0xff5500;
+
+			if (TileID == 1)
+			{
+				color = 0xffaa33;
+			}
+			u32 RowTile = row * 32;
+			u32 ColTile = col * 32;
+
+			draw_rect(ColTile, RowTile, TileHeight, TileWidth, color);
+		}
+	}
+	
+
+
 
 	// Player rect
-	draw_rect(Player.x, Player.y, Player.half_size_x, Player.half_size_y, 0xff2200);
+	//draw_rect(PlayerPhysics.P.X*32, PlayerPhysics.P.Y*32, PlayerGraphics.half_size_x, PlayerGraphics.half_size_y, 0xff2200);
+	draw_rect(PlayerPhysics.P.X*32, PlayerPhysics.P.Y*32, 32, 32, 0xff2200);
 };

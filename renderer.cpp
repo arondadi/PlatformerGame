@@ -30,27 +30,21 @@ draw_rect_in_pixels(int x0, int y0, int x1, int y1, u32 color) {
 	}
 }
 
-global_variable float render_scale = 0.01f;
+global_variable float render_scale = 1.f;
 
-/*
-float x, float y, float half_size_x, float half_size_y, u32 color
-*/
+
 internal void
-draw_rect(float x, float y, float half_size_x, float half_size_y, u32 color) {
-
-	x *= render_state.height * render_scale;
-	y *= render_state.height * render_scale;
-	half_size_x *= render_state.height * render_scale;
-	half_size_y *= render_state.height * render_scale;
-
-	x += render_state.width / 2.f;
-	y += render_state.height / 2.f;
+draw_rect(float x, float y, float width, float height, u32 color) 
+{
+	// Offset from origin in center of rect
+	x += 0.5f * width;
+	y += 0.5f * height;
 
 	// Change to pixels
-	s32 x0 = x - half_size_x;
-	s32 x1 = x + half_size_x;
-	s32 y0 = y - half_size_y;
-	s32 y1 = y + half_size_y;
+	s32 x0 = x - width * 0.5f;
+	s32 x1 = x + width * 0.5f;
+	s32 y0 = y - height * 0.5f;
+	s32 y1 = y + height * 0.5f;
 
 	draw_rect_in_pixels(x0, y0, x1, y1, color);
 }
