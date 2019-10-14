@@ -38,8 +38,10 @@ draw_rect(float x, float y, float width, float height, u32 color)
 {
 	// Offset from origin in center of rect
 	x += 0.5f * width;
-	y += 0.5f * height;
 
+#if 0
+	y += 0.5f * height;
+#endif
 	// Change to pixels
 	s32 x0 = x - width * 0.5f;
 	s32 x1 = x + width * 0.5f;

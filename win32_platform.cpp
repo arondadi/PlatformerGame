@@ -10,8 +10,12 @@
 
 global_variable bool running = true;
 
-global_variable const u32 TileMapHeight = 22;
+global_variable const u32 TileMapHeight = 23;
 global_variable const u32 TileMapWidth = 40;
+
+global_variable const u32 TileWidth = 32;
+global_variable const u32 TileHeight = 32;
+
 
 struct Render_State {
 	int width;
@@ -53,8 +57,16 @@ window_callback(
 
 	case WM_SIZE:
 	{
+#if 1
 		RECT rect;
 		GetClientRect(hwnd, &rect);
+#endif
+#if 0
+		//TODO: Hard coded rect values so ClientRect is right. Fix hard coding
+		DWORD windowStyles = WS_VISIBLE;
+		RECT rect = { 0, 0, 1280, 720 };
+		BOOL success = AdjustWindowRectEx(&rect, windowStyles, false, 0);
+#endif
 		render_state.width = rect.right - rect.left;
 		render_state.height = rect.bottom - rect.top;
 
