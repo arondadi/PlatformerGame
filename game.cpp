@@ -5,23 +5,24 @@
 #define released(b) (!input->buttons[b].is_down && input->buttons[b].changed)
 
 /*
-TODO: check aabb collsion in tilemapcollision
-TODO: Dash mechanic -> press a button to dash quickly a fixed distance and cool down timer on that mechanic. Opptional: Genji super dash off edges
 TODO: Gamepad support in platform layer
-TODO: Add absolute oordinates to position the playing field in the center of window
+TODO: Dash mechanic -> press a button to dash quickly a fixed distance and cool down timer on that mechanic. Opptional: Genji super dash off edges
+
+TODO: Add absolute coordinates to position the playing field in the center of window
 TODO: check and implement tips: https://www.youtube.com/watch?v=vFsJIrm2btU
 */
 
 /* DONE
 Impliment Tilemap map
 GetTileValueFromAbsPos
+Check aabb collsion in tilemapcollision
 */
 
 
 struct graphics_entity
 {
-	float half_size_x;
-	float half_size_y;
+	float rect_size_x;
+	float rect_size_y;
 };
 
 
@@ -32,6 +33,14 @@ struct physics_entity
 	v2 ddP;
 };
 
+enum Sides
+{
+	NONE,
+	BOTTOM,
+	TOP,
+	LEFT,
+	RIGHT
+};
 
 bool initilized = false;
 
@@ -99,48 +108,22 @@ simulate_player(float *p, float *dp, float *half_size_x, float *half_size_y, flo
 
 #endif
 
-internal bool
-aabb_collision(float x1, float y1, float half_size_x1, float half_size_y1, float x2, float y2, float half_size_x2, float half_size_y2)
-{
-	if ((y1 - half_size_y1) < (y2 + half_size_y2) &&
-		(y1 + half_size_y1) > (y2 - half_size_y2) &&
-		(x1 + half_size_x1) > (x2 - half_size_x2) &&
-		(x1 - half_size_x1) < (x2 + half_size_x2))
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-
-}
-
-enum Sides
-{
-	NONE,
-	BOTTOM,
-	TOP,
-	LEFT,
-	RIGHT
-};
-
 internal Sides
-CollisionSide(v2 collider, float half_size_x1, float half_size_y1, v2 collided, float half_size_x2, float half_size_y2)
+CollisionSide(v2 collider, float rect_size_x1, float rect_size_y1, v2 collided, float rect_size_x2, float rect_size_y2)
 {
 	// Returns the side of the collider
 	Sides Result;
 	
-	if ((collider.Y - half_size_y1) < (collided.Y + half_size_y2 * .5f) &&
-		(collider.Y + half_size_y1) > (collided.Y - half_size_y2 * .5f) &&
-		(collider.X + half_size_x1) > (collided.X - half_size_x2 * .5f) &&
-		(collider.X - half_size_x1) < (collided.X + half_size_x2 * .5f))
+	if ((collider.Y - rect_size_y1 * .5f) < (collided.Y + rect_size_y2 * .5f) &&
+		(collider.Y + rect_size_y1 * .5f) > (collided.Y - rect_size_y2 * .5f) &&
+		(collider.X + rect_size_x1 * .5f) > (collided.X - rect_size_x2 * .5f) &&
+		(collider.X - rect_size_x1 * .5f) < (collided.X + rect_size_x2 * .5f))
 	{
 		float bottom, top, left, right;
-		bottom = (collider.Y - half_size_y1) - (collided.Y + half_size_y2 * .5);
-		top = (collided.Y - half_size_y2 * .5f) - (collider.Y + half_size_y1 * .5f);
-		right = (collider.X + half_size_x1) - (collided.X - half_size_x2 * .5f);
-		left = (collided.X + half_size_x2 *.5f) - (collider.X - half_size_x1);
+		bottom = (collider.Y - rect_size_y1 * .5f) - (collided.Y + rect_size_y2 * .5);
+		top = (collided.Y - rect_size_y2 * .5f) - (collider.Y + rect_size_y1 * .5f);
+		right = (collider.X + rect_size_x1 * .5f) - (collided.X - rect_size_x2 * .5f);
+		left = (collided.X + rect_size_x2 *.5f) - (collider.X - rect_size_x1 * .5f);
 
 		float vals[4] = { Absolute(bottom), Absolute(top), Absolute(left), Absolute(right) };
 		Sides index[4] = { BOTTOM, TOP,LEFT, RIGHT };
@@ -166,6 +149,8 @@ GetTileIndex(float x, float y)
 {
 	v2 Result;
 
+	// Round for x as the origin of the tile is in the center
+	// TODO: Why not round y as the origin is also in center? Working...
 	Result.X = (u32) round((x / TileWidth));
 	Result.Y = (u32) (y / TileHeight);
 
@@ -191,8 +176,8 @@ simulate_game(Input* input, float dt)
 	{
 		initilized = true;
 
-		PlayerGraphics.half_size_x = 16;
-		PlayerGraphics.half_size_y = 16;
+		PlayerGraphics.rect_size_x = TileWidth;
+		PlayerGraphics.rect_size_y = TileHeight;
 
 		PlayerPhysics.P.X = 22 * 32;
 		PlayerPhysics.P.Y = render_state.height * 0.25f;
@@ -201,8 +186,8 @@ simulate_game(Input* input, float dt)
 		PlayerPhysics.ddP.X = 0;
 		PlayerPhysics.ddP.Y = 0;
 
-		// The origin is in lower left corner, we draw the map and then flip it before rendering
 
+		// The origin is in lower left corner, we draw the map and then flip it before rendering
 		for (u32 i = 0; i < TileMapHeight; ++i)
 		{
 			for (u32 j = 0; j < TileMapWidth; ++j)
@@ -265,7 +250,7 @@ simulate_game(Input* input, float dt)
 				v2 TileAbsPos = GetTileAbs(i, j);
 
 				// Collision side of player/colliding object
-				Sides CurrentSide = CollisionSide(NewPlayerPhysics.P, PlayerGraphics.half_size_x, PlayerGraphics.half_size_y, TileAbsPos, TileWidth, TileHeight);
+				Sides CurrentSide = CollisionSide(NewPlayerPhysics.P, PlayerGraphics.rect_size_x, PlayerGraphics.rect_size_y, TileAbsPos, TileWidth, TileHeight);
 
  				if (CurrentSide != 0)
 				{
@@ -273,28 +258,26 @@ simulate_game(Input* input, float dt)
 					{
 						case BOTTOM:
 						{
-							NewPlayerPhysics.P.Y = TileAbsPos.Y + TileHeight * .5f + PlayerGraphics.half_size_x;
+							NewPlayerPhysics.P.Y = TileAbsPos.Y + TileHeight * .5f + PlayerGraphics.rect_size_x * .5f;
 							NewPlayerPhysics.dP.Y = 0;
 							grounded = true;
 						}break;
 
 						case TOP:
 						{
-							NewPlayerPhysics.P.Y = TileAbsPos.Y - TileHeight * .5f - PlayerGraphics.half_size_x;
+							NewPlayerPhysics.P.Y = TileAbsPos.Y - TileHeight * .5f - PlayerGraphics.rect_size_x * .5f;
 							NewPlayerPhysics.dP.Y = 0;
 						}break;	
 
 						case RIGHT:
 						{
-							Sides TestSide = CollisionSide(NewPlayerPhysics.P, PlayerGraphics.half_size_x, PlayerGraphics.half_size_y, TileAbsPos, TileWidth, TileHeight);
-							NewPlayerPhysics.P.X = TileAbsPos.X - TileWidth * .5f - PlayerGraphics.half_size_x;
+							NewPlayerPhysics.P.X = TileAbsPos.X - TileWidth * .5f - PlayerGraphics.rect_size_x * .5f;
 							NewPlayerPhysics.dP.X *= -1;
 						}break;
 
 						case LEFT:
 						{
-							Sides TestSide = CollisionSide(NewPlayerPhysics.P, PlayerGraphics.half_size_x, PlayerGraphics.half_size_y, TileAbsPos, TileWidth, TileHeight);
-							NewPlayerPhysics.P.X = TileAbsPos.X + TileWidth * .5f + PlayerGraphics.half_size_x;
+							NewPlayerPhysics.P.X = TileAbsPos.X + TileWidth * .5f + PlayerGraphics.rect_size_x * .5f;
 							NewPlayerPhysics.dP.X *= -1;
 						}break;
 					}
