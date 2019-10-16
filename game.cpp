@@ -61,15 +61,15 @@ u32 TileMapFlipped[TileMapHeight][TileMapWidth] =
 	{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
 	{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
 	{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
-	{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
-	{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
-	{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
-	{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
-	{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
-	{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
-	{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
-	{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
-	{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1,  0, 0, 0, 0,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+	{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+	{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+	{1, 0, 0, 0,  1, 1, 1, 1,  1, 1, 1, 1,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+	{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+	{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+	{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  1, 1, 1, 1,  1, 1, 1, 1,  0, 0, 0, 0,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+	{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  1, 1, 1, 1,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+	{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  1, 1, 1, 1,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
+	{1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  1, 1, 1, 1,	0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 1},
 	{1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1},
 	{1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1}
 };
@@ -100,12 +100,12 @@ simulate_player(float *p, float *dp, float *half_size_x, float *half_size_y, flo
 #endif
 
 internal bool
-aabb_collision(float x1, float y1, float half_size_x1, float half_size_y1, float x2, float y2, float half_size_x, float half_size_y)
+aabb_collision(float x1, float y1, float half_size_x1, float half_size_y1, float x2, float y2, float half_size_x2, float half_size_y2)
 {
-	if ((y1 - half_size_y1) < (y2 + half_size_y) &&
-		(y1 + half_size_y1) > (y2 - half_size_y) &&
-		(x1 + half_size_x1) > (x2 - half_size_x) &&
-		(x1 - half_size_x1) < (x2 + half_size_x))
+	if ((y1 - half_size_y1) < (y2 + half_size_y2) &&
+		(y1 + half_size_y1) > (y2 - half_size_y2) &&
+		(x1 + half_size_x1) > (x2 - half_size_x2) &&
+		(x1 - half_size_x1) < (x2 + half_size_x2))
 	{
 		return true;
 	}
@@ -116,13 +116,58 @@ aabb_collision(float x1, float y1, float half_size_x1, float half_size_y1, float
 
 }
 
+enum Sides
+{
+	NONE,
+	BOTTOM,
+	TOP,
+	LEFT,
+	RIGHT
+};
+
+internal Sides
+CollisionSide(v2 collider, float half_size_x1, float half_size_y1, v2 collided, float half_size_x2, float half_size_y2)
+{
+	// Returns the side of the collider
+	Sides Result;
+	
+	if ((collider.Y - half_size_y1) < (collided.Y + half_size_y2 * .5f) &&
+		(collider.Y + half_size_y1) > (collided.Y - half_size_y2 * .5f) &&
+		(collider.X + half_size_x1) > (collided.X - half_size_x2 * .5f) &&
+		(collider.X - half_size_x1) < (collided.X + half_size_x2 * .5f))
+	{
+		float bottom, top, left, right;
+		bottom = (collider.Y - half_size_y1) - (collided.Y + half_size_y2 * .5);
+		top = (collided.Y - half_size_y2 * .5f) - (collider.Y + half_size_y1 * .5f);
+		right = (collider.X + half_size_x1) - (collided.X - half_size_x2 * .5f);
+		left = (collided.X + half_size_x2 *.5f) - (collider.X - half_size_x1);
+
+		float vals[4] = { Absolute(bottom), Absolute(top), Absolute(left), Absolute(right) };
+		Sides index[4] = { BOTTOM, TOP,LEFT, RIGHT };
+
+		float lowest = vals[0];
+		Result = index[0];
+
+		for (u32 i = 0; i < 4; ++i)
+		{
+			if (vals[i] < lowest)
+			{
+				lowest = vals[i];
+				Result = index[i];
+			}
+		}
+		return Result;
+	}
+	return Result = NONE;
+}
+
 internal v2
 GetTileIndex(float x, float y)
 {
 	v2 Result;
 
-	Result.X = (u32)(x / TileWidth + .5f);
-	Result.Y = (u32)(y / TileHeight);
+	Result.X = (u32) round((x / TileWidth));
+	Result.Y = (u32) (y / TileHeight);
 
 	return Result;
 };
@@ -132,7 +177,7 @@ GetTileAbs(u32 x, u32 y)
 {
 	v2 Result;
 
-	Result.X = x * TileWidth + .5f * TileWidth;
+	Result.X = x * TileWidth;
 	Result.Y = y * TileWidth;
 
 	return Result;
@@ -149,7 +194,7 @@ simulate_game(Input* input, float dt)
 		PlayerGraphics.half_size_x = 16;
 		PlayerGraphics.half_size_y = 16;
 
-		PlayerPhysics.P.X = render_state.width * 0.5f;
+		PlayerPhysics.P.X = 22 * 32;
 		PlayerPhysics.P.Y = render_state.height * 0.25f;
 		PlayerPhysics.dP.X = 0;
 		PlayerPhysics.dP.Y = 0;
@@ -198,17 +243,17 @@ simulate_game(Input* input, float dt)
 	NewPlayerPhysics.dP.X = NewPlayerPhysics.dP.X + NewPlayerPhysics.ddP.X * dt;
 	NewPlayerPhysics.P.X = NewPlayerPhysics.P.X + NewPlayerPhysics.dP.X * dt + NewPlayerPhysics.ddP.X * dt * dt;
 
-
-
-
 	// Collision
 	v2 OldPlayerTileIndex = GetTileIndex(PlayerPhysics.P.X, PlayerPhysics.P.Y);
 	v2 NewPlayerTileIndex = GetTileIndex(NewPlayerPhysics.P.X, NewPlayerPhysics.P.Y);
 
-	u32 x0 = min(OldPlayerTileIndex.X, NewPlayerTileIndex.X);
-	u32 x1 = max(OldPlayerTileIndex.X, NewPlayerTileIndex.X);
-	u32 y0 = min(OldPlayerTileIndex.Y, NewPlayerTileIndex.Y);
-	u32 y1 = max(OldPlayerTileIndex.Y, NewPlayerTileIndex.Y);
+
+	// Check the tile the player is currently in and the tile the player is going to be in.
+	// Add 1 tile to each side, else the player clipps into walls until new position goes into new tile
+	u32 x0 = min(OldPlayerTileIndex.X, NewPlayerTileIndex.X) - 1;
+	u32 x1 = max(OldPlayerTileIndex.X, NewPlayerTileIndex.X) + 1;
+	u32 y0 = min(OldPlayerTileIndex.Y, NewPlayerTileIndex.Y) - 1;
+	u32 y1 = max(OldPlayerTileIndex.Y, NewPlayerTileIndex.Y) + 1;
 
 
 	for (u32 i = x0; i <= x1; ++i)
@@ -217,130 +262,50 @@ simulate_game(Input* input, float dt)
 		{
 			if (TileMap[j][i] == 1)
 			{
-
 				v2 TileAbsPos = GetTileAbs(i, j);
 
- 				if (aabb_collision(NewPlayerPhysics.P.X, NewPlayerPhysics.P.Y, PlayerGraphics.half_size_x, PlayerGraphics.half_size_y, TileAbsPos.X ,TileAbsPos.Y , TileWidth, TileHeight))
+				// Collision side of player/colliding object
+				Sides CurrentSide = CollisionSide(NewPlayerPhysics.P, PlayerGraphics.half_size_x, PlayerGraphics.half_size_y, TileAbsPos, TileWidth, TileHeight);
+
+ 				if (CurrentSide != 0)
 				{
-
-					//TODO debug collision in -X direction
-					// Check GetTileAbs func
-					// Check aabb and the collision for loops
-					if ((NewPlayerPhysics.P.Y + PlayerGraphics.half_size_y > TileAbsPos.Y + TileHeight) && (NewPlayerPhysics.dP.Y < 0 || !grounded))
+					switch (CurrentSide)
 					{
-						NewPlayerPhysics.P.Y = (TileAbsPos.Y + TileHeight);
-						NewPlayerPhysics.dP.Y = 0;
-						grounded = true;
-					}
+						case BOTTOM:
+						{
+							NewPlayerPhysics.P.Y = TileAbsPos.Y + TileHeight * .5f + PlayerGraphics.half_size_x;
+							NewPlayerPhysics.dP.Y = 0;
+							grounded = true;
+						}break;
 
-					if (NewPlayerPhysics.P.Y + PlayerGraphics.half_size_y < TileAbsPos.Y - TileHeight)
-					{
-						NewPlayerPhysics.P.Y = (TileAbsPos.Y - TileHeight - PlayerGraphics.half_size_y);
-						NewPlayerPhysics.dP.Y = 0;
-					}
-#if 1
-					if ((NewPlayerPhysics.P.X - PlayerGraphics.half_size_x < TileAbsPos.X - TileWidth) && (NewPlayerPhysics.dP.X < 0))
-					{
-						NewPlayerPhysics.P.X = (TileAbsPos.X - TileWidth - PlayerGraphics.half_size_x);
-						NewPlayerPhysics.dP.X = 0;
+						case TOP:
+						{
+							NewPlayerPhysics.P.Y = TileAbsPos.Y - TileHeight * .5f - PlayerGraphics.half_size_x;
+							NewPlayerPhysics.dP.Y = 0;
+						}break;	
 
-						attached = true;
-					}
+						case RIGHT:
+						{
+							Sides TestSide = CollisionSide(NewPlayerPhysics.P, PlayerGraphics.half_size_x, PlayerGraphics.half_size_y, TileAbsPos, TileWidth, TileHeight);
+							NewPlayerPhysics.P.X = TileAbsPos.X - TileWidth * .5f - PlayerGraphics.half_size_x;
+							NewPlayerPhysics.dP.X *= -1;
+						}break;
 
-					if ((NewPlayerPhysics.P.X + PlayerGraphics.half_size_x > TileAbsPos.X - TileWidth) && (NewPlayerPhysics.dP.X > 0))
-					{
-						NewPlayerPhysics.P.X = (TileAbsPos.X + TileWidth + PlayerGraphics.half_size_x);
-						NewPlayerPhysics.dP.X = 0;
-
-						attached = true;
+						case LEFT:
+						{
+							Sides TestSide = CollisionSide(NewPlayerPhysics.P, PlayerGraphics.half_size_x, PlayerGraphics.half_size_y, TileAbsPos, TileWidth, TileHeight);
+							NewPlayerPhysics.P.X = TileAbsPos.X + TileWidth * .5f + PlayerGraphics.half_size_x;
+							NewPlayerPhysics.dP.X *= -1;
+						}break;
 					}
-#endif
 				}
 			}
 		}
 	}
 
 
-#if 0
-	// Collision with platform
-	if (aabb_collision(NewPlayerPhysics.P.X, NewPlayerPhysics.P.Y, PlayerGraphics.half_size_x, PlayerGraphics.half_size_y, test_x, test_y, test_half_size_x, test_half_size_y))
-	{
-
-		/*
-		Conserve momentum
-
-		Check for collision aabb by checking (x,y) and size of player and object
-		Check players next postition v2_0
-
-		Find length of vector up to collision object v2_1
-		Rest of vector length is moved in direction not blocked by collision object v2_2
-		v2_1+v2_2 = v2_3
-
-		*/
-
-		if ((PlayerPhysics.P.Y + PlayerGraphics.half_size_y > test_y + test_half_size_y) && (NewPlayerPhysics.dP.Y < 0))
-		{
-			NewPlayerPhysics.P.Y = (test_y + test_half_size_y + PlayerGraphics.half_size_y);
-			NewPlayerPhysics.dP.Y = 0;
-			grounded = true;
-		}
-		else if (PlayerPhysics.P.Y + PlayerGraphics.half_size_y < test_y - test_half_size_y)
-		{
-			NewPlayerPhysics.P.Y = (test_y - test_half_size_y - PlayerGraphics.half_size_y);
-			NewPlayerPhysics.dP.Y = 0;
-		}
-		else if (PlayerPhysics.P.X - PlayerGraphics.half_size_x < test_x - test_half_size_x)
-		{
-			NewPlayerPhysics.P.X = (test_x - test_half_size_x - PlayerGraphics.half_size_x);
-			NewPlayerPhysics.dP.X = 0;
-			
-
-			attached = true;
-		}
-		else if (PlayerPhysics.P.X + PlayerGraphics.half_size_x > test_x + test_half_size_x)
-		{
-			NewPlayerPhysics.P.X = (test_x + test_half_size_x + PlayerGraphics.half_size_x);
-			NewPlayerPhysics.dP.X = 0;
-			
-
-			attached = true;
-		}
-	}
 
 
-
-	
-
-	// Collision with area
-	if (PlayerPhysics.P.X + PlayerGraphics.half_size_x > 1280)
-	{
-		PlayerPhysics.P.X = arena_half_size_x - PlayerGraphics.half_size_x;
-		PlayerPhysics.dP.X *= -0.2;
-		PlayerPhysics.dP.Y *= 0.5;
-		attached = true;
-	}
-	if (PlayerPhysics.P.X - PlayerGraphics.half_size_x < 0)
-	{
-		PlayerPhysics.P.X = -arena_half_size_x + PlayerGraphics.half_size_x;
-		PlayerPhysics.dP.X *= -0.2;
-		PlayerPhysics.dP.Y *= 0.5;
-		attached = true;
-	}
-
-	if (PlayerPhysics.P.Y - (.5f*PlayerGraphics.half_size_y) < 48)
-	{
-		PlayerPhysics.P.Y = 48 + (.5f * PlayerGraphics.half_size_y);
-		PlayerPhysics.dP.Y = 0;
-		grounded = true;
-	}	
-	
-	if (PlayerPhysics.P.Y + PlayerGraphics.half_size_y > 720)
-	{
-		PlayerPhysics.P.Y = arena_half_size_y - PlayerGraphics.half_size_y;
-		PlayerPhysics.dP.Y *= -0.75;
-	}
-
-#endif
 
 	PlayerPhysics = NewPlayerPhysics;
 
@@ -359,8 +324,8 @@ simulate_game(Input* input, float dt)
 			{
 				color = 0xffaa33;
 			}
-			u32 RowTile = row * 32;
-			u32 ColTile = col * 32;
+			u32 RowTile = row * TileHeight;
+			u32 ColTile = col * TileWidth;
 
 			draw_rect(ColTile, RowTile, TileHeight, TileWidth, color);
 		}

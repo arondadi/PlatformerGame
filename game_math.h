@@ -58,4 +58,16 @@ LengthSq(v2 A)
 	return Result;
 }
 
+inline float
+Absolute(float a)
+{
+	float Result = a;
+	if (Result < 0)
+	{
+		Result *= -1;
+	}
+	
+	return Result;
+}
+
 #endif // !MATH_H

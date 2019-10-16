@@ -37,9 +37,9 @@ internal void
 draw_rect(float x, float y, float width, float height, u32 color) 
 {
 	// Offset from origin in center of rect
-	x += 0.5f * width;
-
+	x += .5f * width;
 #if 0
+
 	y += 0.5f * height;
 #endif
 	// Change to pixels
